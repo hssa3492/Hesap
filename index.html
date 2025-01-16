@@ -89,10 +89,16 @@
             <div id="prayerTimes"></div>
 
             <!-- Tarih Hesaplama -->
-            <h3>Tarih Hesaplama</h3>
-            <input type="date" id="selectedDate">
-            <button onclick="calculateDays()">Hesapla</button>
-            <div id="dateResult" class="result"></div>
+            <div style="margin-top: 20px; padding: 10px; border-top: 1px solid #ddd;">
+                <h3 style="font-size: 16px; text-align: center;">Tarih Hesaplama</h3>
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <input type="date" id="selectedDate" style="width: auto; padding: 8px; font-size: 14px;">
+                    <button onclick="calculateDays()" style="margin-top: 10px; padding: 8px 16px; font-size: 14px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Hesapla
+                    </button>
+                    <div id="dateResult" style="margin-top: 10px; font-size: 14px; color: #555;"></div>
+                </div>
+            </div>
         </div>
 
         <!-- Maaş Hesaplama -->
