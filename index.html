@@ -1,4 +1,13 @@
-# Maaş Hesaplama ve Hesap Makinesi
+# Namaz Vakitleri
+
+<!-- Namaz Vakitleri -->
+<div id="menu1" class="menu">
+    <h2>Namaz Vakitleri</h2>
+    <div id="prayerTimes"></div>
+    <input type="date" id="datePicker">
+    <button onclick="calculateDays()">Hesapla</button>
+    <div id="daysResult" class="result"></div>
+</div>
 
 <!-- Maaş Hesaplama -->
 <div id="menu2" class="menu">
@@ -33,14 +42,6 @@
         <button onclick="calculate()">=</button>
         <button onclick="appendOperator('+')">+</button>
     </div>
-</div>
-
-<!-- Tarih Seçici -->
-<div id="datePickerMenu" class="menu">
-    <h2>Tarih Seçici</h2>
-    <input type="date" id="selectedDate">
-    <button onclick="calculateDays()">Hesapla</button>
-    <div id="daysResult" class="result"></div>
 </div>
 
 <!-- Alt Navigasyon -->
@@ -223,18 +224,18 @@
         }
     }
 
-    // Seçilen tarihten geçen gün sayısını hesaplama
+    // Seçilen tarihten geçen gün sayısını hesapla
     function calculateDays() {
-        const selectedDate = new Date(document.getElementById('selectedDate').value);
+        const selectedDate = new Date(document.getElementById('datePicker').value);
         const today = new Date();
-        const diffTime = today - selectedDate;
-        const daysPassed = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        const totalAmount = daysPassed * 275;
-
+        const timeDiff = today - selectedDate;
+        const daysPassed = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        const result = daysPassed * 275;
         document.getElementById('daysResult').textContent = 
-            `Geçen gün sayısı: ${daysPassed}, Toplam: ${totalAmount} TL`;
+            `Geçen gün sayısı: ${daysPassed}, Sonuç: ${result} TL`;
     }
 
     // Sayfa yüklendiğinde
     window.onload = getPrayerTimes;
-</script>
+            </script>
+            
