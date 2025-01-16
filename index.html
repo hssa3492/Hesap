@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#3498db">
+    <title>Namaz ve Hesaplama</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #f0f0f0;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        .nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        .nav-button {
+            border: none;
+            background: none;
+            padding: 10px;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 33.33%;
+        }
+        .nav-button.active {
+            color: #3498db;
+        }
+        .content {
+            padding: 15px;
+            padding-bottom: 80px;
+        }
+        .menu {
+            display: none;
+        }
+        .menu.active {
+            display: block;
+        }
+        input, button {
+            -webkit-appearance: none;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 12px;
+            margin: 5px 0;
+            font-size: 16px;
+            width: 100%;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            font-weight: bold;
+            touch-action: manipulation;
+        }
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            max-width: 100%;
+        }
+        .calculator input {
+            grid-column: span 4;
+            text-align: right;
+            font-size: 24px;
+        }
+        .result {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .prayer-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        h2 {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .prayer-details {
+            display: none;
+            background: #f8f9fa;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .prayer-details.active {
+            display: block;
+        }
+        .details-button {
+            background: #e7f1ff;
+            color: #3498db;
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-left: 10px;
+            width: auto;
+        }
+        .prayer-name-container {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <!-- Namaz Vakitleri -->
+        <div id="menu1" class="menu active">
+            <h2>Namaz Vakitleri</h2>
+            <div id="prayerTimes"></div>
+            
+            <!-- Datepicker ve Hesaplama Butonu -->
+            <input type="date" id="datePicker">
+            <button onclick="calculateDays()">Hesapla</button>
+            <div id="daysPassed" class="result"></div>
+        </div>
+
+        <!-- Maaş Hesaplama -->
+        <div id="menu2" class="menu">
+            <h2>Maaş Hesaplama</h2>
+            <button onclick="calculateSalaryDays()">Maaşa Kalan Gün</button>
+            <div id="remainingDays" class="result"></div>
+            <input type
