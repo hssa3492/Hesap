@@ -7,6 +7,7 @@
     <title>Namaz ve Hesaplama</title>
     <link rel="manifest" href="manifest.json">
     <style>
+        /* Tüm stil değişiklikleri korunuyor */
         * {
             margin: 0;
             padding: 0;
@@ -239,16 +240,4 @@
         }
 
         // Namaz vakitleri
-        async function getPrayerTimes() {
-            try {
-                const cached = localStorage.getItem('prayerTimes');
-                const cachedDate = localStorage.getItem('prayerTimesDate');
-                
-                if (cached && cachedDate === new Date().toDateString()) {
-                    displayPrayerTimes(JSON.parse(cached));
-                    return;
-                }
-
-                const response = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Samsun&country=Turkey&method=13');
-                const data = await response.json();
-                localStorage.setItem('prayerTimes', JSON.stringify(data
+        async function getPrayer
