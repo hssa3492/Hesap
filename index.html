@@ -130,6 +130,12 @@
         <div id="menu1" class="menu active">
             <h2>Namaz Vakitleri</h2>
             <div id="prayerTimes"></div>
+            <div class="result">
+                <h3>Geçen Süre</h3>
+                <input type="date" id="prayerDate">
+                <button onclick="calculateElapsedTime()">Hesapla</button>
+                <div id="elapsedTimeResult"></div>
+            </div>
         </div>
 
         <!-- Maaş Hesaplama -->
@@ -166,14 +172,6 @@
                 <button onclick="appendOperator('+')">+</button>
             </div>
         </div>
-
-        <!-- Geçen Süre Hesaplama -->
-        <div id="menu4" class="menu">
-            <h2>Geçen Süre Hesaplama</h2>
-            <input type="date" id="prayerDate">
-            <button onclick="calculateElapsedTime()">Hesapla</button>
-            <div id="elapsedTimeResult" class="result"></div>
-        </div>
     </div>
 
     <!-- Alt Navigasyon -->
@@ -186,9 +184,6 @@
         </button>
         <button class="nav-button" onclick="switchMenu(3)">
             🔢<br>Hesap
-        </button>
-        <button class="nav-button" onclick="switchMenu(4)">
-            ⏳<br>Geçen Süre
         </button>
     </div>
 
