@@ -122,6 +122,12 @@
             display: flex;
             align-items: center;
         }
+        
+        /* C tuşunun stilini kırmızı yapmak */
+        #clear-button {
+            background-color: red;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -153,7 +159,7 @@
             <h2>Hesap Makinesi</h2>
             <div class="calculator">
                 <input type="text" id="display" readonly>
-                <button onclick="clearCalculator()">C</button>
+                <button id="clear-button" onclick="clearCalculator()">C</button>
                 <button onclick="appendNumber(7)">7</button>
                 <button onclick="appendNumber(8)">8</button>
                 <button onclick="appendNumber(9)">9</button>
@@ -269,3 +275,115 @@
                 Sunrise: 'Güneş',
                 Dhuhr: 'Öğle',
                 Asr: 'İkindi',
+                Maghrib: 'Akşam',
+                Isha: 'Yatsı'
+            };
+
+            container.innerHTML = Object.entries(prayers)
+                .map(([key, name]) => `
+                    <div class="prayer-item">
+                        <div class="prayer-name-container">
+                            <span>${name}</span>
+                            ${key !== 'Sunrise' ? `
+                                <button class="details-button" onclick="toggleDetails('${key}')">
+                                    Detaylar
+                                </button>
+                            ` : ''}
+                        </div>
+                        <span>${timings[key]}</span>
+                        ${key !== 'Sunrise' ? `
+                            <div id="details-${key}" class="prayer-details">
+                                ${prayerDetails[key].description}
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+        }
+
+        // Maaş hesaplama
+        let remainingDaysValue = 0;
+        const salaryDay = 18;
+
+        function calculateSalaryDays() {
+            const today = new Date();
+            const nextSalaryDate = new Date(today.getFullYear(), today.getMonth(), salaryDay);
+            
+            if (today.getDate() > salaryDay) {
+                nextSalaryDate.setMonth(nextSalaryDate.getMonth() + 1);
+            }
+
+            const diffTime = nextSalaryDate - today;
+            remainingDaysValue = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            document.getElementById('remainingDays').textContent = 
+                `Maaş gününe ${remainingDaysValue} gün kaldı`;
+        }
+
+        function divideAmount() {
+            const amount = document.getElementById('divideNumber').value;
+            if (!amount || remainingDaysValue <= 0) return;
+            
+            const daily = amount / remainingDaysValue;
+            document.getElementById('divisionResult').textContent = 
+                `Günlük: ${daily.toFixed(2)} TL`;
+        }
+
+        // Hesap makinesi
+        let currentCalculation = '';
+        const display = document.getElementById('display');
+
+        function appendNumber(num) {
+            currentCalculation += num;
+            display.value = currentCalculation;
+        }
+
+        function appendOperator(op) {
+            if (currentCalculation && !'+-*/'.includes(currentCalculation.slice(-1))) {
+                currentCalculation += op;
+                display.value = currentCalculation;
+            }
+        }
+
+        function clearCalculator() {
+            currentCalculation = '';
+            display.value = '';
+        }
+
+        function calculate() {
+            try {
+                const result = eval(currentCalculation);
+                display.value = result;
+                currentCalculation = result.toString();
+            } catch {
+                display.value = 'Hata';
+                currentCalculation = '';
+            }
+        }
+
+        // Geçen süreyi gün olarak hesaplayan fonksiyon
+        function calculateElapsedTime() {
+            const selectedDate = new Date(document.getElementById('prayerDate').value);
+            const currentDate = new Date();
+            
+            // Seçilen tarih ile mevcut tarih arasındaki farkı alıyoruz
+            const elapsedMilliseconds = currentDate - selectedDate;
+            
+            if (elapsedMilliseconds > 0) {
+                // Geçen gün sayısını hesaplıyoruz
+                const elapsedDays = Math.floor(elapsedMilliseconds / (1000 * 60 * 60 * 24));
+                const result = elapsedDays * 275;
+                
+                // Ekranda sonucu gösteriyoruz
+                document.getElementById('elapsedTimeResult').textContent = 
+                    `Geçen Süre: ${elapsedDays} gün, Sonuç: ${result} TL`;
+            } else {
+                document.getElementById('elapsedTimeResult').textContent = 
+                    `Geçmiş bir tarih seçin.`;
+            }
+        }
+
+        // Sayfa yüklendiğinde
+        window.onload = getPrayerTimes;
+    </script>
+</body>
+</html>
