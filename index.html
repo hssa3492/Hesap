@@ -307,4 +307,77 @@
             }
 
             const diffTime = nextSalaryDate - today;
-            remainingDaysValue = Math.ceil(diffTime / (1000 *
+            remainingDaysValue = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            document.getElementById('remainingDays').textContent = 
+                `Maaş gününe ${remainingDaysValue} gün kaldı`;
+        }
+
+        function divideAmount() {
+            const amount = document.getElementById('divideNumber').value;
+            if (!amount || remainingDaysValue <= 0) return;
+            
+            const daily = amount / remainingDaysValue;
+            document.getElementById('divisionResult').textContent = 
+                `Günlük: ${daily.toFixed(2)} TL`;
+        }
+
+        // Hesap makinesi
+        let currentCalculation = '';
+        const display = document.getElementById('display');
+
+        function appendNumber(num) {
+            currentCalculation += num;
+            display.value = currentCalculation;
+        }
+
+        function appendOperator(op) {
+            if (currentCalculation && !'+-*/'.includes(currentCalculation.slice(-1))) {
+                currentCalculation += op;
+                display.value = currentCalculation;
+            }
+        }
+
+        function clearCalculator() {
+            currentCalculation = '';
+            display.value = '';
+        }
+
+        function calculate() {
+            try {
+                const result = eval(currentCalculation);
+                display.value = result;
+                currentCalculation = result.toString();
+            } catch {
+                display.value = 'Hata';
+                currentCalculation = '';
+            }
+        }
+
+        // Geçen süreyi gün olarak hesaplayan fonksiyon
+        function calculateElapsedTime() {
+            const selectedDate = new Date(document.getElementById('prayerDate').value);
+            const currentDate = new Date();
+            
+            // Seçilen tarih ile mevcut tarih arasındaki farkı alıyoruz
+            const elapsedMilliseconds = currentDate - selectedDate;
+            
+            if (elapsedMilliseconds > 0) {
+                // Geçen gün sayısını hesaplıyoruz
+                const elapsedDays = Math.floor(elapsedMilliseconds / (1000 * 60 * 60 * 24));
+                const result = elapsedDays * 275;
+                
+                // Ekranda sonucu gösteriyoruz
+                document.getElementById('elapsedTimeResult').textContent = 
+                    `Geçen Süre: ${elapsedDays} gün, Sonuç: ${result} TL`;
+            } else {
+                document.getElementById('elapsedTimeResult').textContent = 
+                    `Geçmiş bir tarih seçin.`;
+            }
+        }
+
+        // Sayfa yüklendiğinde
+        window.onload = getPrayerTimes;
+    </script>
+</body>
+</html>
