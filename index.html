@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="tr">
+<!-- Head kısmı aynı kalacak şekilde... -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namaz ve Hesaplama</title>
+    <style>
+        /* Önceki stiller aynen kalacak */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #f0f0f0;
+            padding-bottom: 70px;
+        }
+        .nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        .nav-button {
+            border: none;
+            background: none;
+            padding: 10px;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 33.33%;
+        }
+        .nav-button.active {
+            color: #3498db;
+        }
+        .content {
+            padding: 15px;
+        }
+        .menu {
+            display: none;
+        }
+        .menu.active {
+            display: block;
+        }
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .result {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        h2 {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .prayer-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .prayer-details {
+            display: none;
+            background: #f8f9fa;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .prayer-details.active {
+            display: block;
+        }
+        .details-button {
+            background: #e7f1ff;
+            color: #3498db;
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-left: 10px;
+            width: auto;
+        }
+        .prayer-name-container {
+            display: flex;
+            align-items: center;
+        }
+        .daily-calculation {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+        .calculator input {
+            grid-column: span 4;
+            text-align: right;
+            font-size: 24px;
+        }
+        #clear-button {
+            background-color: red;
+        }
+    <style>
+  :root {
+    --bg-color: #f0f0f0;
+    --text-color: #333;
+    --card-bg: white;
+    --border-color: #ddd;
+    --primary-color: #3498db;
+    --details-bg: #f8f9fa;
+    --nav-bg: white;
+    --nav-text: #666;
+    --calculator-btn: white;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+  }
+
+  [data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #fff;
+    --card-bg: #2d2d2d;
+    --border-color: #404040;
+    --primary-color: #4fa3e0;
+    --details-bg: #363636;
+    --nav-bg: #2d2d2d;
+    --nav-text: #bbb;
+    --calculator-btn: #363636;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+  }
+
+  * {
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  body {
+    background: var(--bg-color);
+    color: var(--text-color);
+  }
+
+  .nav {
+    background: var(--nav-bg);
+    box-shadow: 0 -2px 10px var(--shadow-color);
+  }
+
+  .nav-button {
+    color: var(--nav-text);
+  }
+
+  .nav-button.active {
+    color: var(--primary-color);
+  }
+
+  input, button {
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+  }
+
+  button:not(.nav-button):not(.theme-toggle) {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  .result, .prayer-item {
+    background: var(--card-bg);
+    color: var(--text-color);
+  }
+
+  .prayer-details {
+    background: var(--details-bg);
+  }
+
+  .details-button {
+    background: var(--details-bg);
+    color: var(--primary-color);
+  }
+
+  .calculator button {
+    background: var(--calculator-btn);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 1000;
+    transition: all 0.3s;
+  }
+
+  [data-theme="light"] .theme-toggle {
+    background: #4a4a4a;
+    color: white;
+  }
+
+  [data-theme="dark"] .theme-toggle {
+    background: #f0f0f0;
+    color: #333;
+  }
+</style>
+
+    <div class="content">
+        <!-- Namaz Vakitleri -->
+        <div id="menu1" class="menu active">
+            <h2>Namaz Vakitleri</h2>
+            <div id="prayerTimes"></div>
+        </div>
+
+        <!-- Maaş Hesaplama -->
+        <div id="menu2" class="menu">
+            <h2>Maaş Hesaplama</h2>
+            <div id="remainingDays" class="result"></div>
+            <input type="number" id="divideNumber" placeholder="Bölenecek miktar">
+            <button onclick="divideAmount()">Böl</button>
+            <div id="divisionResult" class="result"></div>
+            <div id="dailyCalculations" class="result"></div>
+        </div>
+
+        <!-- Hesap Makinesi -->
+        <div id="menu3" class="menu">
+            <h2>Hesap Makinesi</h2>
+            <div class="calculator">
+                <input type="text" id="display" readonly>
+                <button id="clear-button" onclick="clearCalculator()">C</button>
+                <button onclick="appendNumber(7)">7</button>
+                <button onclick="appendNumber(8)">8</button>
+                <button onclick="appendNumber(9)">9</button>
+                <button onclick="appendOperator('/')">/</button>
+                <button onclick="appendNumber(4)">4</button>
+                <button onclick="appendNumber(5)">5</button>
+                <button onclick="appendNumber(6)">6</button>
+                <button onclick="appendOperator('*')">×</button>
+                <button onclick="appendNumber(1)">1</button>
+                <button onclick="appendNumber(2)">2</button>
+                <button onclick="appendNumber(3)">3</button>
+                <button onclick="appendOperator('-')">-</button>
+                <button onclick="appendNumber(0)">0</button>
+                <button onclick="appendNumber('.')">.</button>
+                <button onclick="calculate()">=</button>
+                <button onclick="appendOperator('+')">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav">
+        <button class="nav-button active" onclick="switchMenu(1)">
+            🕌<br>Namaz
+        </button>
+        <button class="nav-button" onclick="switchMenu(2)">
+            💰<br>Maaş
+        </button>
+        <button class="nav-button" onclick="switchMenu(3)">
+            🔢<br>Hesap
+        </button>
+    </div>
+
+    <script>
+        // Namaz detayları
+        const prayerDetails = {
+            Fajr: {
+                sunnet: 2,
+                farz: 2,
+                description: "2 rekat sünnet, 2 rekat farz"
+            },
+            Sunrise: {
+                description: "Güneş doğuş vakti"
+            },
+            Dhuhr: {
+                sunnet: "4+4",
+                farz: 4,
+                description: "4 rekat ilk sünnet, 4 rekat farz, 4 rekat son sünnet"
+            },
+            Asr: {
+                sunnet: 4,
+                farz: 4,
+                description: "4 rekat sünnet, 4 rekat farz"
+            },
+            Maghrib: {
+                sunnet: 2,
+                farz: 3,
+                description: "3 rekat farz, 2 rekat sünnet"
+            },
+            Isha: {
+                sunnet: "4+2",
+                farz: 4,
+                description: "4 rekat ilk sünnet, 4 rekat farz, 2 rekat son sünnet"
+            }
+        };
+
+        function toggleDetails(prayerKey) {
+            const detailsElement = document.getElementById(`details-${prayerKey}`);
+            document.querySelectorAll('.prayer-details').forEach(el => {
+                if (el !== detailsElement) el.classList.remove('active');
+            });
+            detailsElement.classList.toggle('active');
+        }
+
+        let remainingDaysValue = 0;
+        const salaryDay = 18;
+        let clickCount = 0;
+        let lastAmount = 0;
+
+        function switchMenu(menuNumber) {
+            document.querySelectorAll('.menu').forEach(menu => menu.classList.remove('active'));
+            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('menu' + menuNumber).classList.add('active');
+            document.querySelectorAll('.nav-button')[menuNumber-1].classList.add('active');
+            
+            if (menuNumber === 2) {
+                calculateSalaryDays();
+            }
+        }
+
+        function calculateSalaryDays() {
+            const today = new Date();
+            const nextSalaryDate = new Date(today.getFullYear(), today.getMonth(), salaryDay);
+            
+            if (today.getDate() > salaryDay) {
+                nextSalaryDate.setMonth(nextSalaryDate.getMonth() + 1);
+            }
+
+            const diffTime = nextSalaryDate - today;
+            remainingDaysValue = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            const months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 
+                          'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+            
+            document.getElementById('remainingDays').innerHTML = 
+                `<strong>Maaş Günü:</strong> ${salaryDay} ${months[nextSalaryDate.getMonth()]} ${nextSalaryDate.getFullYear()}<br>` +
+                `<strong>Kalan Gün:</strong> ${remainingDaysValue} gün`;
+            
+            clickCount = 0;
+            document.getElementById('dailyCalculations').innerHTML = '';
+            document.getElementById('divisionResult').textContent = '';
+        }
+
+        function divideAmount() {
+            const amount = document.getElementById('divideNumber').value;
+            if (!amount || remainingDaysValue <= 0) return;
+            
+            lastAmount = parseFloat(amount);
+            const dailyCalculations = document.getElementById('dailyCalculations');
+            const today = new Date();
+            
+            if (clickCount >= remainingDaysValue) {
+                clickCount = 0;
+                dailyCalculations.innerHTML = '';
+            }
+            
+            const currentDate = new Date(today);
+            currentDate.setDate(currentDate.getDate() + clickCount);
+            const remainingDays = remainingDaysValue - clickCount;
+            const dailyAmount = (lastAmount / remainingDays).toFixed(2);
+            
+            const calculation = document.createElement('div');
+            calculation.className = 'daily-calculation';
+            calculation.innerHTML = `
+                <strong>${currentDate.toLocaleDateString('tr-TR')}:</strong>
+                ${dailyAmount} TL (${remainingDays} gün kaldı)
+            `;
+            
+            dailyCalculations.insertBefore(calculation, dailyCalculations.firstChild);
+            
+            document.getElementById('divisionResult').textContent = 
+                `Günlük: ${dailyAmount} TL`;
+            
+            clickCount++;
+        }
+
+        // Hesap makinesi fonksiyonları
+        let currentCalculation = '';
+        const display = document.getElementById('display');
+
+        function appendNumber(num) {
+            currentCalculation += num;
+            display.value = currentCalculation;
+        }
+
+        function appendOperator(op) {
+            if (currentCalculation && !'+-*/'.includes(currentCalculation.slice(-1))) {
+                currentCalculation += op;
+                display.value = currentCalculation;
+            }
+        }
+
+        function clearCalculator() {
+            currentCalculation = '';
+            display.value = '';
+        }
+
+        function calculate() {
+            try {
+                const result = eval(currentCalculation);
+                display.value = result;
+                currentCalculation = result.toString();
+            } catch {
+                display.value = 'Hata';
+                currentCalculation = '';
+            }
+        }
+
+        // Namaz vakitleri
+        async function getPrayerTimes() {
+            try {
+                const response = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Samsun&country=Turkey&method=13');
+                const data = await response.json();
+                displayPrayerTimes(data.data.timings);
+            } catch (error) {
+                console.error('Namaz vakitleri alınamadı');
+            }
+        }
+
+        function displayPrayerTimes(timings) {
+            const container = document.getElementById('prayerTimes');
+            const prayers = {
+                Fajr: 'İmsak',
+                Sunrise: 'Güneş',
+                Dhuhr: 'Öğle',
+                Asr: 'İkindi',
+                Maghrib: 'Akşam',
+                Isha: 'Yatsı'
+            };
+
+            container.innerHTML = Object.entries(prayers)
+                .map(([key, name]) => `
+                    <div class="prayer-item">
+                        <div class="prayer-name-container">
+                            <span>${name}</span>
+                            ${key !== 'Sunrise' ? `
+                                <button class="details-button" onclick="toggleDetails('${key}')">
+                                    Detaylar
+                                </button>
+                            ` : ''}
+                        </div>
+                        <span>${timings[key]}</span>
+                        ${key !== 'Sunrise' ? `
+                            <div id="details-${key}" class="prayer-details">
+                                ${prayerDetails[key].description}
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+        }
+
+        // Sayfa yüklendiğinde
+        window.onload = function() {
+            getPrayerTimes();
+        };
+      <script src="theme.js"></script>
+<script>
+    window.onload = function() {
+        getPrayerTimes();
+        initTheme();
+    };
+</script>
+    </script>
+</body>
+</html>
