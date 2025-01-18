@@ -1,82 +1,123 @@
 <!DOCTYPE html>
 <html lang="tr">
-<!-- Head kısmı aynı kalacak şekilde... -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Namaz ve Hesaplama</title>
     <style>
-        /* Önceki stiller aynen kalacak */
+        :root {
+            --bg-color: #f0f0f0;
+            --text-color: #333;
+            --card-bg: white;
+            --border-color: #ddd;
+            --primary-color: #3498db;
+            --details-bg: #f8f9fa;
+            --nav-bg: white;
+            --nav-text: #666;
+            --calculator-btn: white;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #fff;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+            --primary-color: #4fa3e0;
+            --details-bg: #363636;
+            --nav-bg: #2d2d2d;
+            --nav-text: #bbb;
+            --calculator-btn: #363636;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
         }
+
         body {
             font-family: system-ui, -apple-system, sans-serif;
-            background: #f0f0f0;
+            background: var(--bg-color);
+            color: var(--text-color);
             padding-bottom: 70px;
         }
+
         .nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: white;
+            background: var(--nav-bg);
             display: flex;
             justify-content: space-around;
             padding: 10px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 -2px 10px var(--shadow-color);
         }
+
         .nav-button {
             border: none;
             background: none;
             padding: 10px;
             font-size: 14px;
-            color: #666;
+            color: var(--nav-text);
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 33.33%;
         }
+
         .nav-button.active {
-            color: #3498db;
+            color: var(--primary-color);
         }
+
         .content {
             padding: 15px;
         }
+
         .menu {
             display: none;
         }
+
         .menu.active {
             display: block;
         }
+
         input, button {
             width: 100%;
             padding: 12px;
             margin: 5px 0;
             border-radius: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             font-size: 16px;
+            background: var(--card-bg);
+            color: var(--text-color);
         }
+
         button {
-            background: #3498db;
+            background: var(--primary-color);
             color: white;
             border: none;
             cursor: pointer;
         }
+
         .result {
-            background: white;
+            background: var(--card-bg);
             padding: 15px;
             border-radius: 8px;
             margin: 10px 0;
         }
+
         h2 {
             margin: 20px 0;
             text-align: center;
+            color: var(--text-color);
         }
+
         .prayer-item {
-            background: white;
+            background: var(--card-bg);
             padding: 15px;
             border-radius: 8px;
             margin: 10px 0;
@@ -84,152 +125,94 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .prayer-details {
             display: none;
-            background: #f8f9fa;
+            background: var(--details-bg);
             padding: 10px;
             margin-top: 5px;
             border-radius: 6px;
             font-size: 14px;
         }
+
         .prayer-details.active {
             display: block;
         }
+
         .details-button {
-            background: #e7f1ff;
-            color: #3498db;
+            background: var(--details-bg);
+            color: var(--primary-color);
             padding: 6px 12px;
             font-size: 12px;
             margin-left: 10px;
             width: auto;
         }
+
         .prayer-name-container {
             display: flex;
             align-items: center;
         }
+
         .daily-calculation {
             padding: 8px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
         }
+
         .calculator {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 5px;
         }
+
         .calculator input {
             grid-column: span 4;
             text-align: right;
             font-size: 24px;
         }
-        #clear-button {
-            background-color: red;
+
+        .calculator button {
+            background: var(--calculator-btn);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
         }
-    <style>
-  :root {
-    --bg-color: #f0f0f0;
-    --text-color: #333;
-    --card-bg: white;
-    --border-color: #ddd;
-    --primary-color: #3498db;
-    --details-bg: #f8f9fa;
-    --nav-bg: white;
-    --nav-text: #666;
-    --calculator-btn: white;
-    --shadow-color: rgba(0, 0, 0, 0.1);
-  }
 
-  [data-theme="dark"] {
-    --bg-color: #1a1a1a;
-    --text-color: #fff;
-    --card-bg: #2d2d2d;
-    --border-color: #404040;
-    --primary-color: #4fa3e0;
-    --details-bg: #363636;
-    --nav-bg: #2d2d2d;
-    --nav-text: #bbb;
-    --calculator-btn: #363636;
-    --shadow-color: rgba(0, 0, 0, 0.3);
-  }
+        #clear-button {
+            background-color: #ff4444;
+            color: white;
+        }
 
-  * {
-    transition: background-color 0.3s, color 0.3s;
-  }
+        .theme-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 1000;
+            transition: all 0.3s;
+            width: auto;
+        }
 
-  body {
-    background: var(--bg-color);
-    color: var(--text-color);
-  }
+        [data-theme="light"] .theme-toggle {
+            background: #4a4a4a;
+            color: white;
+        }
 
-  .nav {
-    background: var(--nav-bg);
-    box-shadow: 0 -2px 10px var(--shadow-color);
-  }
-
-  .nav-button {
-    color: var(--nav-text);
-  }
-
-  .nav-button.active {
-    color: var(--primary-color);
-  }
-
-  input, button {
-    background: var(--card-bg);
-    color: var(--text-color);
-    border-color: var(--border-color);
-  }
-
-  button:not(.nav-button):not(.theme-toggle) {
-    background: var(--primary-color);
-    color: white;
-  }
-
-  .result, .prayer-item {
-    background: var(--card-bg);
-    color: var(--text-color);
-  }
-
-  .prayer-details {
-    background: var(--details-bg);
-  }
-
-  .details-button {
-    background: var(--details-bg);
-    color: var(--primary-color);
-  }
-
-  .calculator button {
-    background: var(--calculator-btn);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-  }
-
-  .theme-toggle {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    padding: 8px 12px;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    z-index: 1000;
-    transition: all 0.3s;
-  }
-
-  [data-theme="light"] .theme-toggle {
-    background: #4a4a4a;
-    color: white;
-  }
-
-  [data-theme="dark"] .theme-toggle {
-    background: #f0f0f0;
-    color: #333;
-  }
-</style>
+        [data-theme="dark"] .theme-toggle {
+            background: #f0f0f0;
+            color: #333;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <button class="theme-toggle" onclick="toggleTheme()">
+        🌙 Koyu Tema
+    </button>
 
     <div class="content">
         <!-- Namaz Vakitleri -->
@@ -454,37 +437,4 @@
             };
 
             container.innerHTML = Object.entries(prayers)
-                .map(([key, name]) => `
-                    <div class="prayer-item">
-                        <div class="prayer-name-container">
-                            <span>${name}</span>
-                            ${key !== 'Sunrise' ? `
-                                <button class="details-button" onclick="toggleDetails('${key}')">
-                                    Detaylar
-                                </button>
-                            ` : ''}
-                        </div>
-                        <span>${timings[key]}</span>
-                        ${key !== 'Sunrise' ? `
-                            <div id="details-${key}" class="prayer-details">
-                                ${prayerDetails[key].description}
-                            </div>
-                        ` : ''}
-                    </div>
-                `).join('');
-        }
-
-        // Sayfa yüklendiğinde
-        window.onload = function() {
-            getPrayerTimes();
-        };
-      <script src="theme.js"></script>
-<script>
-    window.onload = function() {
-        getPrayerTimes();
-        initTheme();
-    };
-</script>
-    </script>
-</body>
-</html>
+                .map(([key, name])</antArtifact>
