@@ -1,0 +1,116 @@
+/* Reset ve genel stiller */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Tema değişkenleri */
+:root {
+    --bg-color: #f0f0f0;
+    --text-color: #333;
+    --card-bg: white;
+    --border-color: #ddd;
+    --primary-color: #3498db;
+    --details-bg: #f8f9fa;
+    --nav-bg: white;
+    --nav-text: #666;
+    --calculator-btn: white;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #fff;
+    --card-bg: #2d2d2d;
+    --border-color: #404040;
+    --primary-color: #4fa3e0;
+    --details-bg: #363636;
+    --nav-bg: #2d2d2d;
+    --nav-text: #bbb;
+    --calculator-btn: #363636;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 70px;
+}
+
+/* Hata mesajları */
+.error {
+    background-color: #ff4444;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+/* PWA kurulum butonu */
+.install-button {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-color);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 24px;
+    border: none;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.install-button:hover {
+    opacity: 0.9;
+}
+
+/* Aktif namaz vakti vurgusu */
+.prayer-item.active {
+    border: 2px solid var(--primary-color);
+}
+
+/* Yükleniyor animasyonu */
+.loading {
+    text-align: center;
+    padding: 20px;
+}
+
+.loading::after {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive tasarım */
+@media (max-width: 360px) {
+    .content {
+        padding: 10px;
+    }
+    
+    .calculator button {
+        font-size: 16px;
+        height: 45px;
+    }
+    
+    .nav-button {
+        font-size: 12px;
+    }
+}
