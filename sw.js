@@ -39,7 +39,6 @@ self.addEventListener('fetch', event => {
                         if (event.request.url.includes('aladhan.com')) {
                             return fetchResponse;
                         }
-                        
                         return caches.open(CACHE_NAME)
                             .then(cache => {
                                 cache.put(event.request, fetchResponse.clone());
