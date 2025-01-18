@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -9,7 +8,7 @@
     <meta name="theme-color" content="#3498db">
     <link rel="icon" type="image/png" href="/icon.png">
     <meta name="description" content="Namaz vakitleri ve hesaplama araçları">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="apple-touch-icon" href="/icon.png">
     <style>
@@ -25,7 +24,6 @@
             --calculator-btn: white;
             --shadow-color: rgba(0, 0, 0, 0.1);
         }
-
         [data-theme="dark"] {
             --bg-color: #1a1a1a;
             --text-color: #fff;
@@ -38,14 +36,12 @@
             --calculator-btn: #363636;
             --shadow-color: rgba(0, 0, 0, 0.3);
         }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             transition: background-color 0.3s, color 0.3s;
         }
-
         body {
             font-family: system-ui, -apple-system, sans-serif;
             background: var(--bg-color);
@@ -54,7 +50,6 @@
             min-height: 100vh;
             position: relative;
         }
-
         .nav {
             position: fixed;
             bottom: 0;
@@ -67,7 +62,6 @@
             box-shadow: 0 -2px 10px var(--shadow-color);
             z-index: 1000;
         }
-
         .nav-button {
             border: none;
             background: none;
@@ -80,24 +74,19 @@
             width: 33.33%;
             cursor: pointer;
         }
-
         .nav-button.active {
             color: var(--primary-color);
         }
-
         .content {
             padding: 15px;
             padding-top: 60px;
         }
-
         .menu {
             display: none;
         }
-
         .menu.active {
             display: block;
         }
-
         input, button {
             width: 100%;
             padding: 12px;
@@ -108,18 +97,15 @@
             background: var(--card-bg);
             color: var(--text-color);
         }
-
         button {
             background: var(--primary-color);
             color: white;
             border: none;
             cursor: pointer;
         }
-
         button:active {
             transform: scale(0.98);
         }
-
         .result {
             background: var(--card-bg);
             padding: 15px;
@@ -127,13 +113,11 @@
             margin: 10px 0;
             box-shadow: 0 2px 5px var(--shadow-color);
         }
-
         h2 {
             margin: 20px 0;
             text-align: center;
             color: var(--text-color);
         }
-
         .prayer-item {
             background: var(--card-bg);
             padding: 15px;
@@ -141,20 +125,17 @@
             margin: 10px 0;
             box-shadow: 0 2px 5px var(--shadow-color);
         }
-
         .prayer-name-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
         }
-
         .prayer-time {
             font-size: 1.2em;
             font-weight: bold;
             color: var(--primary-color);
         }
-
         .prayer-details {
             display: none;
             background: var(--details-bg);
@@ -163,11 +144,9 @@
             border-radius: 6px;
             font-size: 14px;
         }
-
         .prayer-details.active {
             display: block;
         }
-
         .details-button {
             background: var(--details-bg);
             color: var(--primary-color);
@@ -175,12 +154,10 @@
             font-size: 12px;
             width: auto;
         }
-
         .daily-calculation {
             padding: 8px 0;
             border-bottom: 1px solid var(--border-color);
         }
-
         .calculator {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -190,7 +167,6 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px var(--shadow-color);
         }
-
         .calculator input {
             grid-column: span 4;
             text-align: right;
@@ -198,7 +174,6 @@
             margin-bottom: 10px;
             padding: 15px;
         }
-
         .calculator button {
             background: var(--calculator-btn);
             color: var(--text-color);
@@ -206,12 +181,10 @@
             font-size: 18px;
             height: 50px;
         }
-
         #clear-button {
             background-color: #ff4444;
             color: white;
         }
-
         .theme-toggle {
             position: fixed;
             top: 15px;
@@ -228,33 +201,27 @@
             width: auto;
             box-shadow: 0 2px 5px var(--shadow-color);
         }
-
         [data-theme="light"] .theme-toggle {
             background: #4a4a4a;
             color: white;
         }
-
         [data-theme="dark"] .theme-toggle {
             background: #f0f0f0;
             color: #333;
         }
-
         .loading {
             text-align: center;
             padding: 20px;
             color: var(--text-color);
         }
-
         @media (max-width: 360px) {
             .content {
                 padding: 10px;
                 padding-top: 50px;
             }
-
             .nav-button {
                 font-size: 12px;
             }
-
             .calculator button {
                 font-size: 16px;
                 height: 45px;
@@ -263,10 +230,7 @@
     </style>
 </head>
 <body>
-    <button class="theme-toggle" onclick="toggleTheme()">
-        🌙 Koyu Tema
-    </button>
-
+    <button class="theme-toggle" onclick="toggleTheme()">🌙 Koyu Tema</button>
     <div class="content">
         <div id="menu1" class="menu active">
             <h2>Namaz Vakitleri</h2>
@@ -274,7 +238,6 @@
                 <div class="loading">Yükleniyor...</div>
             </div>
         </div>
-
         <div id="menu2" class="menu">
             <h2>Maaş Hesaplama</h2>
             <div id="remainingDays" class="result"></div>
@@ -283,7 +246,6 @@
             <div id="divisionResult" class="result"></div>
             <div id="dailyCalculations" class="result"></div>
         </div>
-
         <div id="menu3" class="menu">
             <h2>Hesap Makinesi</h2>
             <div class="calculator">
@@ -297,134 +259,4 @@
                 <button onclick="appendNumber(5)">5</button>
                 <button onclick="appendNumber(6)">6</button>
                 <button onclick="appendOperator('*')">×</button>
-                <button onclick="appendNumber(1)">1</button>
-                <button onclick="appendNumber(2)">2</button>
-                <button onclick="appendNumber(3)">3</button>
-                <button onclick="appendOperator('-')">-</button>
-                <button onclick="appendNumber(0)">0</button>
-                <button onclick="appendNumber('.')">.</button>
-                <button onclick="calculate()">=</button>
-                <button onclick="appendOperator('+')">+</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="nav">
-        <button class="nav-button active" onclick="switchMenu(1)">
-            🕌<br>Namaz
-        </button>
-        <button class="nav-button" onclick="switchMenu(2)">
-            💰<br>Maaş
-        </button>
-        <button class="nav-button" onclick="switchMenu(3)">
-            🔢<br>Hesap
-        </button>
-    </div>
-
-    <script src="/theme.js"></script>
-    <script>
-        // Namaz detayları
-        const prayerDetails = {
-            Fajr: {
-                sunnet: 2,
-                farz: 2,
-                description: "2 rekat sünnet, 2 rekat farz"
-            },
-            Sunrise: {
-                description: "Güneş doğuş vakti"
-            },
-            Dhuhr: {
-                sunnet: "4+4",
-                farz: 4,
-                description: "4 rekat ilk sünnet, 4 rekat farz, 4 rekat son sünnet"
-            },
-            Asr: {
-                sunnet: 4,
-                farz: 4,
-                description: "4 rekat sünnet, 4 rekat farz"
-            },
-            Maghrib: {
-                sunnet: 2,
-                farz: 3,
-                description: "3 rekat farz, 2 rekat sünnet"
-            },
-            Isha: {
-                sunnet: "4+2",
-                farz: 4,
-                description: "4 rekat ilk sünnet, 4 rekat farz, 2 rekat son sünnet"
-            }
-        };
-
-        function toggleDetails(prayerKey) {
-            const detailsElement = document.getElementById(`details-${prayerKey}`);
-            document.querySelectorAll('.prayer-details').forEach(el => {
-                if (el !== detailsElement) el.classList.remove('active');
-            });
-            detailsElement.classList.toggle('active');
-        }
-
-        let remainingDaysValue = 0;
-        const salaryDay = 15;
-        let clickCount = 0;
-        let lastAmount = 0;
-
-        function switchMenu(menuNumber) {
-            document.querySelectorAll('.menu').forEach(menu => menu.classList.remove('active'));
-            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('menu' + menuNumber).classList.add('active');
-            document.querySelectorAll('.nav-button')[menuNumber-1].classList.add('active');
-            
-            if (menuNumber === 2) {
-                calculateSalaryDays();
-            }
-        }
-
-        function calculateSalaryDays() {
-            const today = new Date();
-            const nextSalaryDate = new Date(today.getFullYear(), today.getMonth(), salaryDay);
-            
-            if (today.getDate() > salaryDay) {
-                nextSalaryDate.setMonth(nextSalaryDate.getMonth() + 1);
-            }
-
-            const diffTime = nextSalaryDate - today;
-            remainingDaysValue = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
-            const months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 
-                          'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
-            
-            document.getElementById('remainingDays').innerHTML = 
-                `<strong>Maaş Günü:</strong> ${salaryDay} ${months[nextSalaryDate.getMonth()]} ${nextSalaryDate.getFullYear()}<br>` +
-                `<strong>Kalan Gün:</strong> ${remainingDaysValue} gün`;
-            
-            clickCount = 0;
-            document.getElementById('dailyCalculations').innerHTML = '';
-            document.getElementById('divisionResult').textContent = '';
-        }
-
-        function divideAmount() {
-            const amount = document.getElementById('divideNumber').value;
-            if (!amount || remainingDaysValue <= 0) return;
-            
-            lastAmount = parseFloat(amount);
-            const dailyCalculations = document.getElementById('dailyCalculations');
-            const today = new Date();
-            
-            if (clickCount >= remainingDaysValue) {
-                clickCount = 0;
-                dailyCalculations.innerHTML = '';
-            }
-            
-            const currentDate = new Date(today);
-            currentDate.setDate(currentDate.getDate() + clickCount);
-            const remainingDays = remainingDaysValue - clickCount;
-            const dailyAmount = (lastAmount / remainingDays).toFixed(2);
-            
-            const calculation = document.createElement('div');
-            calculation.className = 'daily-calculation';
-            calculation.innerHTML = `
-                <strong>${currentDate.toLocaleDateString('tr-TR')}:</strong>
-                ${dailyAmount} TL (${remainingDays} gün kaldı)
-            `;
-            
-            dailyCalculations.insertBefore(calculation, dailyCalculations</antArtifact>
+                <button onclick="append[_{{{CITATION{{{_1{](https://github.com/MrLarrimore/VincentKiHwan/tree/9276353e9b947693a0619d82b81a200f2630bde7/index.php)
